@@ -15,7 +15,9 @@ V -> "smiled" | "tell" | "were"
 """
 
 NONTERMINALS = """
-S -> N V
+S -> N VP
+VP -> V | V NP
+NP -> N | Det NP | N NP | P N 
 """
 
 grammar = nltk.CFG.fromstring(NONTERMINALS + TERMINALS)
@@ -67,7 +69,6 @@ def preprocess(sentence):
     processed_tokens = []
     # Convert words to lowercase & include only alphanumeric tokens
     for token in tokens:
-        token.lower()
         # Assume that the token doesn't have any alphabetic characters
         alpha = False
         # If an alphabetic character is found, change alpha to True
@@ -76,7 +77,7 @@ def preprocess(sentence):
                 alpha = True
                 break
         if alpha:
-            processed_tokens.append(token)
+            processed_tokens.append(token.lower())
 
     return processed_tokens
 
